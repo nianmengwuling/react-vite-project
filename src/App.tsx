@@ -1,28 +1,20 @@
-//import { useState } from 'react'
-/* import Comp1 from "@/components/Comp1"
-import Comp2 from "@/components/Comp2"
-import { Button } from "antd"//antd的按钮引入
-import { UpCircleOutlined } from "@ant-design/icons" */
-import { Outlet, Link } from "react-router-dom"
+import { useState } from 'react'
+import { Outlet, useRoutes, Link } from "react-router-dom"
+import router from "./router"
 
 function App() {
-  //const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0)
 
+  const outlet = useRoutes(router)
   return (
     <>
-      {/* <div>
-        顶级组件
-        <Comp1></Comp1>
-        <Comp2></Comp2>
-        <Button type="primary">这是一个按钮</Button>
-        <UpCircleOutlined style={{ fontSize: "40px", color: "red" }}></UpCircleOutlined>
-      </div> */}
-
       <Link to="home">Home</Link>
       <hr />
       <Link to="about">About</Link>
+      
       {/* 路由出口占位，类似于vue的router-view */}
-      <Outlet></Outlet>
+      {/*  <Outlet></Outlet> 组件形式写法*/}
+      {outlet}
     </>
   )
 }

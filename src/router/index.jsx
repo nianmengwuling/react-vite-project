@@ -1,33 +1,31 @@
-import App from '@/App';
-import Home from "../views/Home";
-import About from "../views/About";
-import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
+//路由表形式
+import { Navigate } from 'react-router-dom';
+import React, { lazy } from "react"
 
-/* const baseRouter = () => {
-    return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<App />}>
-                    <Route path="/home" element={<Home />}></Route>
-                    <Route path="/about" element={<About />}></Route>
-                </Route>
-            </Routes>
-        </BrowserRouter>
-    )
-} */
+//路由懒加载
+const About = lazy(() => import("../views/About"))
+const Home = lazy(() => import("../views/Home"))
 
-const baseRouter = () =>
-(
-    <BrowserRouter>
-        <Routes>
-            <Route path="/" element={<App />}>
-                {/* 重定向到home */}
-                <Route path="/" element={<Navigate to="/home" />}></Route>
-                <Route path="/home" element={<Home />}></Route>
-                <Route path="/about" element={<About />}></Route>
-            </Route>
-        </Routes>
-    </BrowserRouter>
-)
 
-export default baseRouter
+//懒加载组件式写法，需要在外层套用suspense。用在还未加载完成时，显示Loading提示
+const withLoadingComponent = (component) => (<React.Suspense fallback={<div>Loading...</div>} >
+    {component}
+</React.Suspense>)
+
+const routes = [
+    {
+        path: "/",
+        element: <Navigate to="/home" />
+    },
+    {
+        path: "/home",
+        element: withLoadingComponent(<Home/>)
+    },
+    {
+        path: "/about",
+        element: withLoadingComponent(<About/>)
+    },
+]
+
+
+export default routes;
