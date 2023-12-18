@@ -8,6 +8,7 @@ import {
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Breadcrumb, Layout, Menu, theme } from 'antd';
+import { useNavigate,Outlet } from "react-router-dom"
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -28,8 +29,8 @@ function getItem(
 }
 
 const items: MenuItem[] = [
-    getItem('栏目 1', '1', <PieChartOutlined />),
-    getItem('栏目 2', '2', <DesktopOutlined />),
+    getItem('栏目 1', '/page1', <PieChartOutlined />),
+    getItem('栏目 2', '/page2', <DesktopOutlined />),
     getItem('User', 'sub1', <UserOutlined />, [
         getItem('Tom', '3'),
         getItem('Bill', '4'),
@@ -44,13 +45,19 @@ const View: React.FC = () => {
     const {
         token: { colorBgContainer },
     } = theme.useToken();
+    const NavigateTo = useNavigate();
+
+    /* 左边栏菜单点击事件 */
+    const menuClick = (e: { key: string }) => {
+        NavigateTo(e.key)
+    };
 
     return (
         <Layout style={{ minHeight: '100vh' }}>
             {/* 左边栏 */}
             <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
                 <div className="demo-logo-vertical" />
-                <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
+                <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} onClick={menuClick} />
             </Sider>
             {/* 右边栏 */}
             <Layout>
@@ -65,6 +72,7 @@ const View: React.FC = () => {
                 {/* 内容 */}
                 <Content style={{ margin: '16px 16px 0', padding: 24, minHeight: 360, background: colorBgContainer }}>
                     {/* 窗口 */}
+                    <Outlet/>
                 </Content>
                 {/* 尾部 */}
                 <Footer style={{ textAlign: 'center', padding: "0", lineHeight: "48px" }}>Ant Design ©2023 Created by Ant UED</Footer>
