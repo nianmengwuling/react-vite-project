@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom"
 
 type MenuItem = Required<MenuProps>['items'][number];
 
-function getItem(
+/* function getItem(
     label: React.ReactNode,
     key: React.Key,
     icon?: React.ReactNode,
@@ -37,7 +37,59 @@ const items: MenuItem[] = [
     ]),
     getItem('Team', 'page4', <TeamOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
     getItem('Files', '9', <FileOutlined />),
-];
+]; */
+const items: MenuItem[] = [
+    {
+        label: '栏目一',
+        key: '/page1',
+        icon: <PieChartOutlined />
+    },
+    {
+        label: '栏目二',
+        key: '/page2',
+        icon: <DesktopOutlined />
+    },
+    {
+        label: 'User',
+        key: '/page3',
+        icon: <UserOutlined />,
+        children: [
+            {
+                label: 'Tom',
+                key: '/page3/page301',
+            },
+            {
+                label: 'Bill',
+                key: '/page3/page302',
+            },
+            {
+                label: 'Alex',
+                key: '/page3/page303',
+            },
+        ]
+    },
+    {
+        label: 'Team',
+        key: '/page4',
+        icon: <TeamOutlined />,
+        children: [
+            {
+                label: 'Team1',
+                key: '/page4//page401',
+            },
+            {
+                label: 'Team2',
+                key: '/page4/page402',
+            }
+        ]
+    },
+    {
+        label: 'Files',
+        key: '/page5',
+        icon: <PieChartOutlined />
+    }
+]
+
 const Comp: React.FC = () => {
 
     const NavigateTo = useNavigate();
@@ -49,7 +101,6 @@ const Comp: React.FC = () => {
     const [openKeys, setOpenKeys] = useState(['page3']);
     /* 点击折叠选项时，另一个折叠项自动收起 */
     const handleOpenChange = (keys: string[]) => {
-        console.log(keys);
         /* 有3和4两个折叠page，点哪个它就在数组最后一个。比如点3，那就是[4,3]
            根据索引，所以length-1就是3的索引
         */
